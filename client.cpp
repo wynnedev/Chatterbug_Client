@@ -10,12 +10,14 @@ void Client::clientConnect(QString address)
 
 }
 
-void Client::init(){
+void Client::init()
+{
     connect( this, SIGNAL(readyRead()), SLOT(readClient()) );
 
 }
 
-void Client::readClient(){
+void Client::readClient()
+{
 
 }
 
