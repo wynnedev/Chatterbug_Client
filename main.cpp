@@ -5,6 +5,7 @@
 #include <QtQml>
 #include <QtGui>
 #include "client.h"
+#include <QQuickView>
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +14,13 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+    //Server server;
+    //server.StartServer();
+
+    //give QML gui access to client class
     qmlRegisterType<Client>( "com.client", 1,0, "Client");
+
+
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

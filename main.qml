@@ -8,30 +8,17 @@ import com.client 1.0
 
 Window {
 
-    signal testSignal();
     visible: true
     color: "white"
     width: 640
+    maximumWidth: 640
     height: 480
+    maximumHeight: 480
     title: qsTr("Chatter Bug")
+
 
     Client{
         id: client
-    }
-
-    ColorDialog{
-        id: colorDialog
-        title: "Send Message"
-        color: "green"
-        onAccepted: { console.log("Accepted:") }
-        onRejected: { console.log("Rejected: " + color) }
-    }
-
-    FontDialog{
-        id: fontDialog
-        title: "Send Message"
-        onAccepted: { console.log("Accepted:") }
-        onRejected: { console.log("Rejected: " + color) }
     }
 
     Column{
@@ -39,39 +26,34 @@ Window {
            TextField{
                id: txtIP
                text: "Enter Valid IP"
-               width: 500
+               width: 360
            }
 
            Button{
                id: btnConnect
                text: "Connect"
                width: 140
-               onClicked: client.clientConnect(txtIP.text.toString())
-           }
+               onClicked: {
+                   client.clientConnect(txtIP.text.toString())
+          }
+        }
 
+           Button{
+               id: btnDisconnect
+               text: "Disconnect"
+               width: 140
+               onClicked: {
+                   client.clientDisconnect()
+               }
+           }
         }
 
         Row{
-            Button{
-                id: btnColor
-                text: "Color"
-                onClicked: {
-                    colorDialog.open()
-                }
-            }
-
-            Button{
-                id: btnFont
-                text: "Font"
-                onClicked: {
-                    fontDialog.open()
-                }
-            }
 
             TextField {
                 id: txtMessage
                 text: "Enter Message"
-                width: 300
+                width: 500
             }
 
             Button{
@@ -79,6 +61,8 @@ Window {
                 text: "Send Message"
                 width: 140
                 onClicked:{
+                    client.clientWrite(txtMessage.text.toString())
+                    txtMessage.text =''
                 }
             }
         }
@@ -92,13 +76,11 @@ Window {
 
             TextArea {
                 id: chatWindow
-                font: fontDialog.font
-                color: colorDialog.color
                 horizontalAlignment: TextEdit.AlignLeft
                 verticalAlignment: TextEdit.AlignTop
+                text: chatWindow.append(client.data)
                }
             }
         }
     }
 }
-

@@ -10,32 +10,30 @@
 #include <string>
 #include <iostream>
 
+#define PORT 8888
 
-
-
-class Client : public QObject
+class Client : public QTcpSocket
 {
     Q_OBJECT
-    Q_PROPERTY(Qstring text NOTIFY textChanged)
+    Q_PROPERTY(QString data READ getData NOTIFY newData)
 
 public:
     explicit Client(QObject *parent = nullptr);
     Q_INVOKABLE void clientConnect(QString address);
-    //void sendMessage(const QString &message);
-    //QString receiveMessage();
+    Q_INVOKABLE QString getData();
+    Q_INVOKABLE void clientDisconnect();
+    Q_INVOKABLE void clientWrite(QString);
     void init();
 
-
 signals:
-    //textChanged()
+   void newData();
 
 public slots:
     void readClient();
-    void testSlot();
-    //void startConnection(QString &ip);
+    void connected();
 
 private:
-    QTcpSocket* socket;
+    QString _data;
 
 };
 
