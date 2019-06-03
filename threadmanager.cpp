@@ -9,10 +9,14 @@ ThreadManager::ThreadManager(int ID, QObject *parent) : QThread(parent), socketI
 void ThreadManager::run()
 {
     //start new thread
-    qDebug() << "Starting Thread...";
+    
+    //create new socket
     socket = new QTcpSocket();
+    
+    //add pointer to socket to list of sockets
     sockets.push_back(socket);
 
+    // set socket description
     if(!socket->setSocketDescriptor(this->socketID))
     {
         emit error(socket->error());
@@ -27,15 +31,16 @@ void ThreadManager::run()
 
 void ThreadManager::readyRead()
 {
+    //read and report data to console
     QByteArray data = socket->readAll();
     qDebug() << socketID << "Data in: " << data;
 
     for(QTcpSocket *s : sockets){
         qDebug() << s->write(data);
-
     }
 }
 
+//respond when client disconnects
 void ThreadManager::disconnected()
 {
     socket->deleteLater();
