@@ -7,16 +7,22 @@
 #include <QDebug>
 #include <QList>
 
-static QList<QTcpSocket*> sockets;
+static QList<QTcpSocket*> sockets;  //list all connected sockets
 
 class ThreadManager : public QThread
 {
     Q_OBJECT
 public:
+
+// constructor
     ThreadManager(int ID, QObject *parent);
+    
+    // Start thread
     void run();
 
 signals:
+
+//emit on error
     void error(QTcpSocket::SocketError socketerror);
 
 public slots:
@@ -24,8 +30,8 @@ public slots:
     void disconnected();
 
 private:
-    QTcpSocket *socket;
-    int socketID;
+    QTcpSocket *socket;  // communication socket
+    int socketID;        // socket ID
 
 };
 
