@@ -15,9 +15,13 @@ void Client::clientConnect(QString address)
 
 void Client::init()
 {
+    // signals and slots c onnected
     connect( this, SIGNAL(readyRead()), SLOT(readClient()) );
+    
+    // error reporting signal and slot connection
     connect(this, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
         [=](QAbstractSocket::SocketError socketError){ _data = this->errorString(); emit newData();});
+    
     connect( this, SIGNAL(connected()), SLOT(connected()));
 }
 
